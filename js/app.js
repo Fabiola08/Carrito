@@ -56,6 +56,9 @@ const generaHTML = () => {
         <td>${curso.nombre}</td>
         <td>${curso.precio}</td>
         <td>${curso.cantidad}</td>
+        <td>
+            <a href="a" class="borrar-curso" data-id="${curso.id}">x</a>
+        </td>
         `;
         row.innerHTML = cursoHTML;
         console.log(row)
@@ -65,13 +68,25 @@ const generaHTML = () => {
 
 const vaciarCarrito = () => {
     contenedorCarrito.innerHTML = " ";
-    
-
+}
+const eliminarCurso = (e) => {
+    e.preventDefault();
+    if(e.target.classList.contains('borrar-curso')){
+        let idCurso = e.target.getAttribute('data-id')
+        let carrito = listadoCarrito.filter(cursoInCarrito => cursoInCarrito.id !== idCurso)
+        listadoCarrito = [...carrito];
+        generaHTML();
+    }
 }
 
 const cargarEventListener = () => {
     //AGREGAR FUNCION DE CARGA DE CURSOS AL CARRITO
     listaCursos.addEventListener('click', agregarCurso);
+
+    contenedorCarrito.addEventListener('click', eliminarCurso);
+
+    vaciarCarritoBtn.addEventListener('click', vaciarCarrito);
+
 }
 
 cargarEventListener();
